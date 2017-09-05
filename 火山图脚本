@@ -1,0 +1,26 @@
+rm(list = ls()) #clear space
+library(ggplot2) 
+library(dplyr)
+
+results = read.table(file = "", sep = " ", header = T)
+
+data <- data.frame(gene = results$X, pvalue = results$pvalue, lfc = results$log2FoldChange)
+
+data <- na.omit(data)
+
+head(data)
+
+data$change <- as.factor(ifelse(abs(data$lfc)>1.5 & (data$pvalue<0.05), 
+                                 ifelse((data$lfc)>1.5, "UP", "DOWN",), "NOT")
+This_title <- paste0("The number of up gene is ", norw(data[data$change == "UP", ],
+                      "\n The number of down gene is" nrow[data$change == "DOWN",]),
+                      "\n The cutoff for logFC is 1.5")
+                      
+ggplot(data, aes((x = data$lfc), y = -log10((data$pvalue)), colour = change))+
+             xlab("Log2fold cahnge") + ylab("-log10pvalue")
+             +geom_point(alpha=0.7, size=1)+
+             theme_set(theme_set(theme_bw(base_size = 20)))+
+             ggtitle(this_title)+
+             theme(plot.title = element_text(size = 15,hjust = 0.5))+
+             scale_colour_manual(values = c("blue", "black", "red"))
+                
